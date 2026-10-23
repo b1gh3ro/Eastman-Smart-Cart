@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Eastman store
 
-## Getting Started
+Next.js + Supabase. Users, products, carts and orders all live in Supabase (Postgres).
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. Create a Supabase project, then in its SQL editor run `supabase/schema.sql`, then `supabase/seed.sql`.
+2. Copy `.env.example` to `.env.local` and fill in the URL and publishable key (Project Settings > API).
+3. `npm run dev` and open http://localhost:3000
+
+## Where things are
+
+```
+supabase/schema.sql   tables, who-can-see-what rules, coupon + checkout functions
+supabase/seed.sql     sample products and coupons
+src/lib/supabase.ts   Supabase client (knows the logged-in user)
+src/lib/api.ts        route() wrapper, ApiError, requireUser()
+src/lib/cart.ts       cart totals and quantity rules
+src/app/api/...       one folder per endpoint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Method | Path | Body / query |
+|---|---|---|
+| POST | `/api/auth/signup` | `{ name, email, password }` |
+| POST | `/api/auth/login` | `{ email, password }` |
+| POST | `/api/auth/logout` | |
+| GET | `/api/auth/me` | |
+| GET | `/api/products` | `?category=&search=` |
+| GET | `/api/products/:id` | |
+| GET | `/api/cart` | `?coupon=SAVE10` to preview a discount |
+| POST | `/api/cart/items` | `{ productId, quantity }` |
+| PATCH | `/api/cart/items/:productId` | `{ quantity }` |
+| DELETE | `/api/cart/items/:productId` | |
+| GET | `/api/coupons` | |
+| GET | `/api/orders` | |
+| POST | `/api/orders` | `{ name, email, address, coupon? }` |
+| GET | `/api/orders/:id` | |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Errors always come back as `{ "error": "message" }`.
