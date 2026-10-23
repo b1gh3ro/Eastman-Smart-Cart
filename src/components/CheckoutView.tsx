@@ -92,7 +92,7 @@ export default function CheckoutView() {
               required
               value={form.address}
               onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
-              placeholder="Hostel / building, room, campus, city, PIN"
+              placeholder="House / flat, street, city, PIN"
             />
           </label>
           <ul className="divide-y divide-[#f1f5f9] rounded-xl border border-[#e2e8f0]">

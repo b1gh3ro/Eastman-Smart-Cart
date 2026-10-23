@@ -12,7 +12,7 @@ const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin
 
 export const metadata: Metadata = {
   title: { default: "Eastman Smart Cart", template: "%s · Eastman Smart Cart" },
-  description: "Shop campus essentials, manage your cart and check out fast.",
+  description: "Everyday essentials for home, wardrobe and tech. Fast checkout, easy coupons.",
 };
 
 function HeaderFallback() {

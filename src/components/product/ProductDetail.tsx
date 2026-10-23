@@ -108,7 +108,7 @@ export default function ProductDetail() {
 
           <ul className="mt-6 space-y-3 text-body-sm text-on-surface-variant">
             <li className="flex items-center gap-2">
-              <Icon name="local_shipping" className="text-[18px] text-primary" /> Free campus delivery
+              <Icon name="local_shipping" className="text-[18px] text-primary" /> Free delivery
             </li>
             <li className="flex items-center gap-2">
               <Icon name="assignment_return" className="text-[18px] text-primary" /> Easy returns

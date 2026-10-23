@@ -7,7 +7,7 @@ import type { Product } from '@/lib/types';
 
 const PERKS = [
   { icon: 'local_shipping', title: 'Free delivery', text: 'On every order' },
-  { icon: 'sell', title: 'Student coupons', text: 'Applied at checkout' },
+  { icon: 'sell', title: 'Coupons', text: 'Applied at checkout' },
   { icon: 'lock', title: 'Secure checkout', text: 'Stock held when you pay' },
 ];
 
@@ -17,15 +17,15 @@ export default function Hero({ spotlight, onQuickView }: { spotlight?: Product; 
       <div className="card relative grid overflow-hidden lg:grid-cols-[1.4fr_1fr]">
         <div className="relative z-10 p-6 md:p-12">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-fixed px-3 py-1 text-label-sm uppercase text-primary">
-            <Icon name="bolt" className="text-[14px]" /> Campus commerce
+            <Icon name="bolt" className="text-[14px]" /> New season
           </span>
           <h1 className="mt-5 font-display text-display-mobile md:text-display">
-            Smart shopping for
+            Everyday essentials,
             <br />
-            campus &amp; beyond<span className="text-primary">.</span>
+            delivered<span className="text-primary">.</span>
           </h1>
           <p className="mt-4 max-w-lg text-body-lg text-on-surface-variant">
-            Find dorm, kitchen and tech essentials, keep your cart synced to your account, and check out in seconds.
+            Kitchen, clothing and tech picks at fair prices. Your cart is saved to your account, and checkout takes seconds.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#catalog" className="btn-primary">
@@ -73,7 +73,7 @@ export default function Hero({ spotlight, onQuickView }: { spotlight?: Product; 
           ) : (
             <div className="flex aspect-[4/3] w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-primary-container to-primary text-white shadow-md">
               <Icon name="shopping_cart" className="text-[72px] opacity-90" />
-              <span className="mt-3 font-display text-title">Your campus store, online</span>
+              <span className="mt-3 font-display text-title">Everyday essentials, online</span>
             </div>
           )}
         </div>

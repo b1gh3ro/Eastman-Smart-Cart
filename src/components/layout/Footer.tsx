@@ -31,7 +31,7 @@ export default function Footer() {
             <span className="font-display text-title">Eastman Smart Cart</span>
           </div>
           <p className="mt-4 max-w-sm text-body-md text-on-surface-variant">
-            Campus retail made quick: browse, fill your cart, apply a coupon and check out in a few taps.
+            Everyday essentials, made simple: browse, fill your cart, apply a coupon and check out in a few taps.
           </p>
         </div>
         {LINKS.map((group) => (
@@ -50,7 +50,7 @@ export default function Footer() {
         ))}
         <div>
           <h2 className="font-display text-title">Stay connected</h2>
-          <p className="mt-4 text-body-sm text-on-surface-variant">Get flash discount codes and student deals in your inbox.</p>
+          <p className="mt-4 text-body-sm text-on-surface-variant">Get discount codes and new arrivals in your inbox.</p>
           <NewsletterForm />
         </div>
       </div>

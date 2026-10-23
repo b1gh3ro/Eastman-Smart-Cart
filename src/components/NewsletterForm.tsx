@@ -34,7 +34,7 @@ export default function NewsletterForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@university.edu"
+          placeholder="you@example.com"
           className="field !h-11 min-w-0 flex-1"
         />
         <button className="btn-primary !min-h-11 shrink-0" disabled={state.status === 'sending' || !email.trim()}>
