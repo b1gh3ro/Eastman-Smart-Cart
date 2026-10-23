@@ -8,3 +8,11 @@ export const GET = route(async (req) => {
   const coupon = new URL(req.url).searchParams.get('coupon');
   return getCart(supabase, coupon);
 });
+
+// DELETE /api/cart — empties the cart.
+export const DELETE = route(async () => {
+  const { supabase, user } = await requireUser();
+  const { error } = await supabase.from('cart_items').delete().eq('user_id', user.id);
+  if (error) throw error;
+  return getCart(supabase);
+});
