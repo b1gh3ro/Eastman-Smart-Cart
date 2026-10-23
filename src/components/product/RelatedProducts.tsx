@@ -7,7 +7,7 @@ import { formatPrice } from '@/lib/format';
 import type { Product } from '@/lib/types';
 import ProductImage from './ProductImage';
 
-// "You may also like": other products in the same category, from the products API.
+// "You may also like": other products in the same category first, topped up from the rest of the shop.
 export default function RelatedProducts({
   product,
   onSelect,
@@ -21,9 +21,12 @@ export default function RelatedProducts({
 
   useEffect(() => {
     let live = true;
-    api
-      .products({ category: product.category, limit: 5 })
-      .then(({ products }) => live && setRelated({ forId: product.id, items: products.filter((p) => p.id !== product.id).slice(0, 4) }))
+    Promise.all([api.products({ category: product.category, limit: 5 }), api.products({ limit: 9 })])
+      .then(([sameCategory, everything]) => {
+        const seen = new Set([product.id]);
+        const items = [...sameCategory.products, ...everything.products].filter((p) => !seen.has(p.id) && seen.add(p.id));
+        if (live) setRelated({ forId: product.id, items: items.slice(0, 4) });
+      })
       .catch(() => live && setRelated({ forId: product.id, items: [] })); // optional section: hide on failure
     return () => {
       live = false;

@@ -51,14 +51,12 @@ export default function Shop() {
   const [featured, setFeatured] = useState<Product[]>([]);
   const [quickView, setQuickView] = useState<Product | null>(null);
   const [searchInput, setSearchInput] = useState(search);
-  const [priceInput, setPriceInput] = useState({ min: minPrice, max: maxPrice });
 
   // Keep the inputs in step when the URL changes (back button, header search, chips).
   const [synced, setSynced] = useState({ search, minPrice, maxPrice });
   if (synced.search !== search || synced.minPrice !== minPrice || synced.maxPrice !== maxPrice) {
     setSynced({ search, minPrice, maxPrice });
     setSearchInput(search);
-    setPriceInput({ min: minPrice, max: maxPrice });
   }
 
   const updateParams = useCallback(
@@ -200,7 +198,7 @@ export default function Shop() {
 
       {/* Search, price and sort */}
       <section id="catalog" className="container-page mb-8 scroll-mt-24">
-        <div className="card flex flex-col gap-4 p-4">
+        <div className="card p-3">
           <div className="flex flex-col gap-3 md:flex-row md:items-center">
             <div className="relative flex-1">
               <Icon name="search" className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[20px] text-secondary" />
@@ -215,6 +213,33 @@ export default function Shop() {
                 placeholder="Search by name, description or category"
                 className="field !pl-11"
               />
+            </div>
+            <div className="relative">
+              <label htmlFor="price" className="sr-only">
+                Price range
+              </label>
+              <Icon name="sell" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-secondary" />
+              <select
+                id="price"
+                value={`${minPrice}-${maxPrice}`}
+                onChange={(e) => {
+                  const [min, max] = e.target.value.split('-');
+                  applyPrice(min, max);
+                }}
+                className="field cursor-pointer appearance-none !pl-10 !pr-10 text-label-md md:w-48"
+              >
+                <option value="-">Any price</option>
+                {PRICE_PRESETS.map((p) => (
+                  <option key={p.label} value={`${p.min}-${p.max}`}>
+                    {p.label}
+                  </option>
+                ))}
+                {/* A range typed into the URL that isn't one of the presets */}
+                {priceLabel && !PRICE_PRESETS.some((p) => p.min === minPrice && p.max === maxPrice) && (
+                  <option value={`${minPrice}-${maxPrice}`}>{priceLabel}</option>
+                )}
+              </select>
+              <Icon name="expand_more" className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[18px] text-secondary" />
             </div>
             <div className="relative">
               <label htmlFor="sort" className="sr-only">
@@ -236,50 +261,6 @@ export default function Shop() {
               <Icon name="expand_more" className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[18px] text-secondary" />
             </div>
           </div>
-
-          <form
-            className="flex flex-wrap items-center gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              applyPrice(priceInput.min, priceInput.max);
-            }}
-          >
-            <span className="mr-1 text-label-md text-secondary">Price</span>
-            {PRICE_PRESETS.map((p) => {
-              const active = minPrice === p.min && maxPrice === p.max;
-              return (
-                <button
-                  key={p.label}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => applyPrice(active ? '' : p.min, active ? '' : p.max)}
-                  className={`rounded-full border px-3 py-1.5 text-label-sm ${active ? 'border-primary bg-primary-fixed text-primary' : 'border-[#e2e8f0] hover:bg-surface-container-low'}`}
-                >
-                  {p.label}
-                </button>
-              );
-            })}
-            <div className="flex items-center gap-2">
-              <input
-                aria-label="Minimum price"
-                inputMode="decimal"
-                placeholder="Min ₹"
-                value={priceInput.min}
-                onChange={(e) => setPriceInput((p) => ({ ...p, min: e.target.value.replace(/[^\d.]/g, '') }))}
-                className="field !h-9 w-24 !px-3 text-body-sm"
-              />
-              <span className="text-outline">–</span>
-              <input
-                aria-label="Maximum price"
-                inputMode="decimal"
-                placeholder="Max ₹"
-                value={priceInput.max}
-                onChange={(e) => setPriceInput((p) => ({ ...p, max: e.target.value.replace(/[^\d.]/g, '') }))}
-                className="field !h-9 w-24 !px-3 text-body-sm"
-              />
-              <button className="btn-secondary !min-h-9 !px-3 !py-1.5">Apply</button>
-            </div>
-          </form>
         </div>
 
         <div className="mt-6 flex flex-wrap items-center gap-2.5">
